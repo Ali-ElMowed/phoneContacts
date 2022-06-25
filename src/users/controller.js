@@ -1,6 +1,8 @@
 const { getUsers, getById, addUser, getByEmail } = require('./service');
+const Contact = require('../model/Contact');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const TOKEN_SECRET = process.env.TOKEN_SECRET || "";
 // const salt = require('salt');
 
 async function getUser(req, res) {
@@ -51,7 +53,7 @@ async function login(req, res) {
 
         const token = jwt.sign(
             { _id: user._id, name: user.name, email: user.email },
-            TOKEN_SECRET
+            "TOKEN_SECRET"
         );
 
         return res.header('auth-token', token).send(token);

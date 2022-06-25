@@ -21,21 +21,24 @@ const contactSchema = new mongoose.Schema({
         max: 255,
         unique: true,
     },
+    relation_status:{
+        type:String,
+    },
     location:{
-        type: Number,
-        coordinates: [longitude, latitude]
+        type: {
+            type: String,
+            enum:['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
+    users:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'  
     }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Contact', contactSchema);

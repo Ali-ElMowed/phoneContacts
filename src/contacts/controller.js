@@ -1,4 +1,4 @@
-const { addContact,getContacts,getContactByUserId } = require('./service');
+const { addContact,getContacts,getContactByUserId,getContactById } = require('./service');
 const User = require('../model/User');
 const Contact = require('../model/Contact');
 // const { findByIdAndUpdate } = require('../model/Contact');
@@ -10,6 +10,11 @@ async function get(req,res){
         if(req.body.user){
             const user_id = req.body.user;
             const result = await getContactByUserId(user_id);
+            return res.send(result)
+        }
+        if(req.body._id){
+            const contact_id = req.body._id;
+            const result = await getContactById(contact_id);
             return res.send(result)
         }
         const result = await getContacts();

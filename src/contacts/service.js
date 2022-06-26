@@ -10,6 +10,12 @@ async function getContactByUserId(user){
         user
     })
 }
+
+async function getContactById(_id){
+    return await Contact.find({
+        _id
+    })
+}
 async function addContact(body){
     const {
         name,
@@ -35,5 +41,6 @@ async function addContact(body){
 module.exports = {
     addContact,
     getContacts,
-    getContactByUserId
+    getContactByUserId,
+    getContactById
 }

@@ -1,5 +1,15 @@
 const Contact = require("../model/Contact");
 
+
+async function getContacts(){
+    return await Contact.find();
+}
+
+async function getContactByUserId(user){
+    return await Contact.find({
+        user
+    })
+}
 async function addContact(body){
     const {
         name,
@@ -7,7 +17,7 @@ async function addContact(body){
         email,
         relation_status,
         loctaion,
-        users,
+        user,
 
     }=body
     const contact = new Contact({
@@ -16,7 +26,7 @@ async function addContact(body){
         email,
         relation_status,
         loctaion,
-        users
+        user
     })
     
     return await contact.save();
@@ -24,4 +34,6 @@ async function addContact(body){
 
 module.exports = {
     addContact,
+    getContacts,
+    getContactByUserId
 }

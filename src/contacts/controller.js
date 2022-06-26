@@ -1,8 +1,9 @@
 const { addContact,getContacts,getContactByUserId } = require('./service');
 const User = require('../model/User');
 const Contact = require('../model/Contact');
-const { findByIdAndUpdate } = require('../model/Contact');
+// const { findByIdAndUpdate } = require('../model/Contact');
 
+//get contact by id or all contacts
 async function get(req,res){
     try{
 
@@ -18,6 +19,7 @@ async function get(req,res){
         console.log(error)
     }
 }
+//add contact
 async function add(req, res) {
 
     try {
@@ -31,6 +33,7 @@ async function add(req, res) {
     }
 }
 
+//delete contact
 async function deleteContact(req, res){
     try{
         const contact = await Contact.findOne({
@@ -45,39 +48,29 @@ async function deleteContact(req, res){
     }
 }
 
-// async function updateContact(req, res){
-//     // try{
-//         const contact_id = req.param.id;
-//         const updates = req.body;
-//         const contact = await Contact.findByIdAndUpdate(contact_id,updates,
-//         //     {name:" req.body.name",
-//         //     phone_number: "req.body.phone_number",
-//         //     email: "req.body.email",
-//         //     relation_status: "req.body.relation_status",
-//         //     location: "req.body.location"
-//         // },
-//         //     {new:true,
-//         //     runValidators:true}
-//         // ,
-//         function(err,result){
-//             if(err){
-//                 console.log(err.message);
-//             }
-//             res.send()
-//         })
+//update contact
+async function updateContact(req, res){
+    try{
+        const {name, phone_number, email, relation_status, location} = req.body;
+        const contact = await Contact.findByIdAndUpdate(req.param.id,{
+            name,
+            phone_number,
+            email,
+            relation_status,
+            location
+        });
+        const updateContact = await contact.save();
+        return res.send(updateContact);
 
-//         // const contact = await Contact.findById(req.body.id);
-//         // const updateCon = await contact
-        
-//     // }
-//     // catch(error){
-//     //     console.log(error.message)
-//     // }
-// }
+    }
+    catch(error){
+        console.log(error.message);
+    }
+}
 
 module.exports = {
     add,
     get,
     deleteContact,
-    // updateContact
+    updateContact
 }

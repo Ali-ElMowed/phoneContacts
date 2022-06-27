@@ -1,27 +1,32 @@
-const { addContact,getContacts,getContactByUserId,getContactById } = require('./service');
+const { addContact, getContacts, getContactByUserId, getContactById } = require('./service');
 const User = require('../model/User');
 const Contact = require('../model/Contact');
 // const { findByIdAndUpdate } = require('../model/Contact');
 
 //get contact by id or all contacts
-async function get(req,res){
-    try{
+async function get(req, res) {
+    const { id } = req.params
+    try {
 
-        if(req.body.user){
-            const user_id = req.body.user;
-            const result = await getContactByUserId(user_id);
-            return res.send(result)
+        if (id) {
+            const result = await getContactByUserId(id);
+            return res.status(200).json({ result })
         }
-        if(req.body._id){
-            const contact_id = req.body._id;
-            const result = await getContactById(contact_id);
-            return res.send(result)
-        }
-        const result = await getContacts();
-        return res.send(result);
     }
-    catch(error){
+    catch (error) {
         console.log(error)
+    }
+}
+async function getContact(req, res) {
+    try {
+        if (req.body._id) {
+            const id = req.body._id;
+            const result = await getContactById(id);
+            return res.send(result)
+        }
+    }
+    catch (error) {
+
     }
 }
 //add contact
@@ -39,25 +44,25 @@ async function add(req, res) {
 }
 
 //delete contact
-async function deleteContact(req, res){
-    try{
+async function deleteContact(req, res) {
+    try {
         const contact = await Contact.findOne({
             _id: req.body.id
         })
 
         const deleteResult = await contact.remove();
-         return res.send("Contact Deleted");
+        return res.send("Contact Deleted");
     }
-    catch(error){
+    catch (error) {
         console.log(error.message);
     }
 }
 
 //update contact
-async function updateContact(req, res){
-    try{
-        const {name, phone_number, email, relation_status, location} = req.body;
-        const contact = await Contact.findByIdAndUpdate(req.param.id,{
+async function updateContact(req, res) {
+    try {
+        const { name, phone_number, email, relation_status, location } = req.body;
+        const contact = await Contact.findByIdAndUpdate(req.param.id, {
             name,
             phone_number,
             email,
@@ -68,7 +73,7 @@ async function updateContact(req, res){
         return res.send(updateContact);
 
     }
-    catch(error){
+    catch (error) {
         console.log(error.message);
     }
 }
@@ -77,5 +82,6 @@ module.exports = {
     add,
     get,
     deleteContact,
-    updateContact
+    updateContact,
+    getContact
 }

@@ -22,7 +22,9 @@ app.use(cros());
 app.use(express.json());    
 
 app.use('/api/user',userRouter);
-app.use('/api/contact',auth,contactRouter);
+app.use('/api/contact',
+// auth,
+contactRouter);
 
 app.use('/welcome', auth , (req,res)=>{
     res.status(200).send('welcome');

@@ -6,10 +6,10 @@ const { get, add, deleteContact,
 const router = Router();
 
 router.get('/getContacts/:id', get);
+router.get('/getContactById/:id', getContact);
 router.post('/addContact', add);
-router.delete('/deleteContact', deleteContact);
 router.post('/updateContact', updateContact);
-router.post('/getContactById', getContact);
+router.delete('/deleteContact/:id', deleteContact);
 
 
 module.exports = router;

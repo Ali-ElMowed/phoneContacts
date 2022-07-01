@@ -18,9 +18,9 @@ async function get(req, res) {
     }
 }
 async function getContact(req, res) {
+    const { id } = req.params
     try {
-        if (req.body._id) {
-            const id = req.body._id;
+        if (id) {
             const result = await getContactById(id);
             return res.send(result)
         }
@@ -45,13 +45,12 @@ async function add(req, res) {
 
 //delete contact
 async function deleteContact(req, res) {
+    const { id } = req.params
     try {
-        const contact = await Contact.findOne({
-            _id: req.body.id
-        })
 
-        const deleteResult = await contact.remove();
-        return res.send("Contact Deleted");
+        const contact = await Contact.findByIdAndDelete(id)
+
+        return res.status(200).json({ msg: "Contact Deleted" });
     }
     catch (error) {
         console.log(error.message);
@@ -62,7 +61,7 @@ async function deleteContact(req, res) {
 async function updateContact(req, res) {
     try {
         const { name, phone_number, email, relation_status, location } = req.body;
-        const contact = await Contact.findByIdAndUpdate(req.param.id, {
+        const contact = await Contact.findByIdAndUpdate(req.params.id, {
             name,
             phone_number,
             email,

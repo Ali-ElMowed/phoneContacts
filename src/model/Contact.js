@@ -23,20 +23,14 @@ const contactSchema = new mongoose.Schema({
     relation_status: {
         type: String,
     },
-    location: {
-        type: {
-            type: String,
-            default: 'Point',
-            // required: true
-        },
-        lang: {
-            type: Number,
-            // required: true
-        },
-        lat: {
-            type: Number,
-            // required: true
-        }
+
+    lng: {
+        type: Number,
+        // required: true
+    },
+    lat: {
+        type: Number,
+        // required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
